@@ -1,0 +1,77 @@
+$gray: gray;
+$blue: blue;
+
+.App {
+  text-align: center;
+}
+#signin {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+
+  #signin-left {
+    display: flex;
+    flex: 1;
+    width: 50%;
+    border: 1px solid black;
+    #signin-card {
+      align-items: center;
+      border: 1px solid black;
+      width: 360px;
+      margin: auto;
+      padding: 20px;
+
+      #signin-logo {
+        background: black;
+        padding: 10px;
+        b {
+          color: $gray;
+        }
+      }
+      #signin-subtitle {
+        color: $gray;
+      }
+      form {
+        .input-label {
+          display: block;
+          width: 100%;
+          color: $gray;
+          text-align: left;
+        }
+        input[type='text'], input[type='password'] {
+          width: 100%;
+          padding: 5px;
+          margin: 5px 0;
+          border: 1px solid blue;
+        }
+        #signin-support {
+          display: flex;
+          justify-content: space-between;
+          padding: 15px 0;
+
+          #signin-forgot {
+            color: $blue;
+          }
+        }
+        #signin-btn {
+          padding: 10px;
+          width: 200px;
+          color: white;
+          background-color: $blue;
+          border: 1px solid $blue;
+          border-radius: 4px;
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  #signin-right {
+    flex: 1;
+    width: 50%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
