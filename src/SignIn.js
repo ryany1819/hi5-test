@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { validateUsername, validatePassword, UNAME_ERR_MSG, PWD_ERR_MSG } from './utils'
 import sideImage from './assets/images/side.jpg';
+import TokenContext from './TokenContext';
+import { userLoginApi } from './services';
+import { Navigate } from 'react-router-dom';
 
 export default function SignIn() {
     const [username, setUsername] = useState('');
@@ -8,25 +11,39 @@ export default function SignIn() {
     const [unameErr, setUnameErr] = useState(0);
     const [pwdErr, setPwdErr] = useState(0);
 
+    const {token, setToken} = useContext(TokenContext);
+
     const handleClick = (e) => {
         const newUnameErr = validateUsername(username);
         const newPwdErr = validatePassword(password);
-        console.log(newUnameErr, newPwdErr);
         setUnameErr(newUnameErr);
         setPwdErr(newPwdErr);
         if (newUnameErr || newPwdErr) return e.preventDefault();
+    }
+
+    const doLogin = async (e) => {
         // do login
-        alert('pass');
+        e.preventDefault();
+        const res = await userLoginApi(username, password);
+        if (!res.data) {
+            alert(res.error);
+            setUsername('');
+            setPassword('');
+            return e.preventDefault();
+        }
+        setToken(res.data.token);
     }
 
     return (
+        <>
+        {token && (<Navigate to="/" />)}
         <div id="signin">
             <div id="signin-left">
                 <div id="signin-card">
                     <div id="signin-logo"><b>LOGO</b></div>
                     <h1>Sign In</h1>
                     <p id="signin-subtitle">Sign in to stay connected.</p>
-                    <form>
+                    <form onSubmit={doLogin}>
                         <label className="input-label" htmlFor="username">Username</label>
                         <input type="text" className={`${unameErr ? "red-border" : "blue-border"}`} name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
                         {unameErr !== 0 && <p className="err-msg">{UNAME_ERR_MSG[unameErr]}</p>}
@@ -38,15 +55,16 @@ export default function SignIn() {
                                 <input type="checkbox" />
                                 Remember me?
                             </label>
-                            <a id="signin-forgot">Forget Password</a>
+                            <a href="/dummy-forgot" id="signin-forgot">Forget Password</a>
                         </div>
                         <button id="signin-btn" type="submit" onClick={handleClick}>Sign in</button>
                     </form>
                 </div>
             </div>
             <div id="signin-right">
-                <img src={sideImage} />
+                <img src={sideImage} alt="side-img"/>
             </div>
         </div>
+        </>
     );
 }

@@ -6,14 +6,14 @@ const validateEmail = (email) => {
 const validateUsername = (uname) => {
     console.log(uname);
     let ret = 0;
-    if (!uname.length) ret = UNAME_ERR.Empty; // 1
-    else if (!validateEmail(uname)) ret = UNAME_ERR.BadFormat;
+    if (!uname.length) ret = UNAME_ERR.Empty; // check if uname is empty...
+    else if (!validateEmail(uname)) ret = UNAME_ERR.BadFormat; // else if uname is malformed...
     return ret;
 }
 const validatePassword = (pwd) => {
     let ret = 0;
-    if (!pwd.length) ret = PWD_ERR.Empty;
-    else if (pwd.length < 3) ret = PWD_ERR.TooShort;
+    if (!pwd.length) ret = PWD_ERR.Empty;   // check if pwd is empty...
+    else if (pwd.length < 3) ret = PWD_ERR.TooShort; // else if pwd len is less than 3...
     return ret;
 }
 const UNAME_ERR = {
