@@ -21,7 +21,7 @@ export default function Main() {
         if (token) {
             fetchUserObj(token);
         }
-    })
+    }, [token]);
     return (
         <>
             {!token && (<Navigate to="/sign-in"/>)}
